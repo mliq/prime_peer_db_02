@@ -74,7 +74,19 @@ section {
   text-align: right;
 }
 
+.hidden{
+  display: none;
+}
 
+.editPanel {
+  padding-top: 10px;
+  background-color: red;
+  transition: background-color 3s;
+}
+
+.editPanel.change {
+  background-color: white;
+}
 
 footer {
   background-color:black;
