@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Assignments</title>
+    <link rel="stylesheet" href="/stylesheets/style.css"/>
+</head>
+<body>
+
+<header>
+    <nav>
+        <ul>
+            <li>
+                <a href="/">Home</a>
+            </li>
+            <li class="active">
+                <a href="/create">Create</a>
+            </li>
+        </ul>
+    </nav>
+    <h1>Assignments</h1>
+</header>
+
+
+<section>
+    <h1>Create an assignment</h1>
+
+    <p>Here you can use the submit button to post to the create.js route.</p>
+
+    <form method="post" class="grid">
+        <div class="row">
+
+            <div class="col col-1of2">
+                <label for="name">Name:</label>
+            </div>
+            <div class="col">
+                <input name="name" id="name" type="text" required="required">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-1of2">
+                <label for="score">score:</label>
+            </div>
+            <div class="col">
+                <input name="score" id="score" type="number" required="required" step="any">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-1of2">
+                <label for="date_completed">Date Completed:</label>
+            </div>
+            <div class="col">
+                <input name="date_completed" id="date_completed" type="date" required="required">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-1of2">
+                &nbsp;
+        </div>
+        <div class="col">
+            <input type="submit" value="Submit">
+        </div>
+        </div>
+    </form>
+</section>
+
+<footer>
+    Copyright © 2015 Joseph Szczesniak
+</footer>
+
+</body>
+</html>
