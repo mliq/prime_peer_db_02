@@ -178,6 +178,23 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
 
     $container.append(section);
 }
+function search(input){
+    $.ajax({
+        url: '/assignments/search/'+input,
+        method: 'get',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            clearData();
+            processData(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus,errorThrown);
+        },
+        complete: function(jqXHR, textStatus){
+            console.log("getData() Ajax Get Complete:", textStatus);
+        }
+    });
+}
 
 function assignClicks(){
 
@@ -187,6 +204,10 @@ function assignClicks(){
 
     $('.sortDesc').on('click', function() {
         getDataSort(-1);
+    });
+
+    $('.submit').on('click', function() {
+        search($('.search').val());
     });
 
         $container.on('click', '.js-delete', function(){
