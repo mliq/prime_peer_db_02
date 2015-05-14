@@ -197,6 +197,8 @@ function showEditor(id,name, score, date){
     $scoreEditor.val(score);
     $dateEditor.val(date);
     $editPanel.slideDown().delay().addClass('change');
+    // send focus to editor
+    $nameEditor.focus();
 }
 
 function clearEditor(){
