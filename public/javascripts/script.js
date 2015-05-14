@@ -42,7 +42,6 @@ function getData(){
     });
 }
 
-
 function deleteData(id){
     $.ajax({
         url: '/assignments/' + id,
@@ -81,6 +80,44 @@ function updateData(data){
         },
         complete: function(jqXHR, textStatus){
             console.log("updateData() Ajax Get Complete:", textStatus);
+        }
+    });
+}
+
+function getDataAsc(){
+    $.ajax({
+        url: '/assignments/sortAsc',
+        data: {},
+        method: 'get',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            clearData();
+            processData(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus,errorThrown);
+        },
+        complete: function(jqXHR, textStatus){
+            console.log("getData() Ajax Get Complete:", textStatus);
+        }
+    });
+}
+
+function getDataDesc(){
+    $.ajax({
+        url: '/assignments/sortDesc',
+        data: {},
+        method: 'get',
+        dataType: 'json',
+        success: function(data, textStatus, jqXHR){
+            clearData();
+            processData(data);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(textStatus,errorThrown);
+        },
+        complete: function(jqXHR, textStatus){
+            console.log("getData() Ajax Get Complete:", textStatus);
         }
     });
 }
@@ -163,7 +200,17 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
 }
 
 function assignClicks(){
-    $container.on('click', '.js-delete', function(){
+
+    $('.sortAsc').on('click', function() {
+        getDataAsc();
+    });
+
+    $('.sortDesc').on('click', function() {
+        getDataDesc();
+        console.log("click");
+    });
+
+        $container.on('click', '.js-delete', function(){
         var id = $(this).data('id');
         deleteData(id);
     });

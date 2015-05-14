@@ -18,12 +18,47 @@ router.post('/', function(req, res, next) {
   });
 });
 
-/* GET /assignments/id */
-router.get('/:id', function(req, res, next) {
-  assignments.findById(req.params.id, function (err, assignment) {
-    if (err) return next(err);
-    res.json(assignment);
-  });
+///* GET /assignments/id */
+//router.get('/:id', function(req, res, next) {
+//  assignments.findById(req.params.id, function (err, assignment) {
+//    if (err) return next(err);
+//    res.json(assignment);
+//  });
+//});
+
+router.get('/sortAsc', function (req, res, next) {
+    assignments.find({}, null,
+        {
+            sort: {
+                name: 1
+            }
+        }
+        , function (err, data) {
+
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            res.json(data);
+        });
+});
+
+router.get('/sortDesc', function (req, res, next) {
+
+    assignments.find({}, null,
+        {
+            sort: {
+                name: -1
+            }
+        }
+        , function (err, data) {
+
+            if (err) {
+                console.log(err);
+                return next(err);
+            }
+            res.json(data);
+        });
 });
 
 /* PUT /assignments/:id */
