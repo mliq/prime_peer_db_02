@@ -84,10 +84,10 @@ function updateData(data){
     });
 }
 
-function getDataAsc(){
+function getDataSort(direction){
     $.ajax({
-        url: '/assignments/sortAsc',
-        data: {},
+        url: '/assignments/sort',
+        data: {direction: direction},
         method: 'get',
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
@@ -102,26 +102,6 @@ function getDataAsc(){
         }
     });
 }
-
-function getDataDesc(){
-    $.ajax({
-        url: '/assignments/sortDesc',
-        data: {},
-        method: 'get',
-        dataType: 'json',
-        success: function(data, textStatus, jqXHR){
-            clearData();
-            processData(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus,errorThrown);
-        },
-        complete: function(jqXHR, textStatus){
-            console.log("getData() Ajax Get Complete:", textStatus);
-        }
-    });
-}
-
 
 function clearData(){
     $container.empty();
@@ -202,12 +182,11 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
 function assignClicks(){
 
     $('.sortAsc').on('click', function() {
-        getDataAsc();
+        getDataSort(1);
     });
 
     $('.sortDesc').on('click', function() {
-        getDataDesc();
-        console.log("click");
+        getDataSort(-1);
     });
 
         $container.on('click', '.js-delete', function(){

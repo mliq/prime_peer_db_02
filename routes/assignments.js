@@ -26,29 +26,12 @@ router.post('/', function(req, res, next) {
 //  });
 //});
 
-router.get('/sortAsc', function (req, res, next) {
+router.get('/sort', function (req, res, next) {
+    console.log(req.query);
     assignments.find({}, null,
         {
             sort: {
-                name: 1
-            }
-        }
-        , function (err, data) {
-
-            if (err) {
-                console.log(err);
-                return next(err);
-            }
-            res.json(data);
-        });
-});
-
-router.get('/sortDesc', function (req, res, next) {
-
-    assignments.find({}, null,
-        {
-            sort: {
-                name: -1
+                name: req.query.direction
             }
         }
         , function (err, data) {
