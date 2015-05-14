@@ -1,27 +1,27 @@
-$(document).ready(function(){
-    container = $('.js-assignments');
-    editPanel = $('.js-editPanel');
-    nameEditor = $('#name');
-    scoreEditor = $('#score');
-    dateEditor = $('#date_completed');
-    editorSubmit = $('#submit');
-
-    getData();
-    assignClicks();
-});
-
-var container;
 var monthNames = [
     "January", "February", "March",
     "April", "May", "June", "July",
     "August", "September", "October",
     "November", "December"
 ];
-var nameEditor;
-var scoreEditor;
-var dateEditor;
-var editPanel;
-var editorSubmit;
+var $container;
+var $nameEditor;
+var $scoreEditor;
+var $dateEditor;
+var $editPanel;
+var $editorSubmit;
+
+$(document).ready(function(){
+    $container = $('.js-assignments');
+    $editPanel = $('.js-editPanel');
+    $nameEditor = $('#name');
+    $scoreEditor = $('#score');
+    $dateEditor = $('#date_completed');
+    $editorSubmit = $('#submit');
+
+    getData();
+    assignClicks();
+});
 
 function getData(){
     $.ajax({
@@ -87,7 +87,7 @@ function updateData(data){
 
 
 function clearData(){
-    container.empty();
+    $container.empty();
 }
 
 function processData(assignments){
@@ -159,16 +159,16 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
         .attr('data-id', id)
         .appendTo(liEdit);
 
-    container.append(section);
+    $container.append(section);
 }
 
 function assignClicks(){
-    container.on('click', '.js-delete', function(){
+    $container.on('click', '.js-delete', function(){
         var id = $(this).data('id');
         deleteData(id);
     });
 
-    container.on('click', '.js-edit', function(){
+    $container.on('click', '.js-edit', function(){
         var id = $(this).data('id');
         var section = $('#' + id);
         var name = section.data('name');
@@ -177,14 +177,14 @@ function assignClicks(){
         showEditor(id, name, score, date);
     });
 
-    editorSubmit.on('click', function() {
+    $editorSubmit.on('click', function() {
         // build an object and send it using ajax
 
         var data = {
             id: $(this).data('id'),
-            name: nameEditor.val(),
-            score: scoreEditor.val(),
-            date_completed: dateEditor.val()
+            name: $nameEditor.val(),
+            score: $scoreEditor.val(),
+            date_completed: $dateEditor.val()
         };
 
         updateData(data);
@@ -192,17 +192,17 @@ function assignClicks(){
 }
 
 function showEditor(id,name, score, date){
-    editorSubmit.attr('data-id', id);
-    nameEditor.val(name);
-    scoreEditor.val(score);
-    dateEditor.val(date);
-    editPanel.slideDown().delay().addClass('change');
+    $editorSubmit.attr('data-id', id);
+    $nameEditor.val(name);
+    $scoreEditor.val(score);
+    $dateEditor.val(date);
+    $editPanel.slideDown().delay().addClass('change');
 }
 
 function clearEditor(){
-    editorSubmit.attr('data-id', '');
-    nameEditor.val('');
-    scoreEditor.val('');
-    dateEditor.val('');
-    editPanel.slideUp().delay().removeClass('change');
+    $editorSubmit.attr('data-id', '');
+    $nameEditor.val('');
+    $scoreEditor.val('');
+    $dateEditor.val('');
+    $editPanel.slideUp().delay().removeClass('change');
 }
