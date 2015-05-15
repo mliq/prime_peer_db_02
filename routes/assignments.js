@@ -13,7 +13,9 @@ router.get('/', function (req, res, next) {
 
 /* POST /assignments */
 router.post('/', function (req, res, next) {
-    assignments.create(req.body, function (err, assignment) {
+    var assignment = new assignments(req.body);
+    assignment.normalized = assignment.name.toLowerCase();
+    assignments.create(assignment, function (err, assignment) {
         if (err) return next(err);
         res.json(assignment);
     });
@@ -21,14 +23,15 @@ router.post('/', function (req, res, next) {
 
 /* GET /assignments/id */
 router.get('/sort', function (req, res, next) {
-    console.log(req.query.name, req.query.direction);
+
     if (req.query.name != undefined) {
         name = req.query.name;
     }
+
     assignments.find({name: new RegExp(name, 'i')}, null,
         {
             sort: {
-                name: req.query.direction
+                normalized: req.query.direction
             }
         }
         , function (err, data) {
@@ -43,6 +46,7 @@ router.get('/sort', function (req, res, next) {
 
 /* PUT /assignments/:id */
 router.put('/:id', function (req, res, next) {
+    console.log(req.body);
     assignments.findByIdAndUpdate(req.params.id, req.body, function (err, assignment) {
         if (err) return next(err);
         res.json(assignment);

@@ -192,7 +192,6 @@ function assignClicks(){
 
     $('.submit').on('click', function() {
         getDataSort(-1, $('.search').val());
-        //search($('.search').val());
     });
 
         $container.on('click', '.js-delete', function(){
@@ -216,11 +215,13 @@ function assignClicks(){
             id: $(this).data('id'),
             name: $nameEditor.val(),
             score: $scoreEditor.val(),
-            date_completed: $dateEditor.val()
+            date_completed: $dateEditor.val(),
+            normalized: $nameEditor.val().toLowerCase()
         };
 
         updateData(data);
     });
+
 }
 
 function showEditor(id,name, score, date){

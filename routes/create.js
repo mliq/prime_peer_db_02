@@ -10,7 +10,9 @@ router.get('/', function(req, res, next) {
 
 /* POST home page. */
 router.post('/', function(req, res, next) {
-    assignments.create(req.body, function (err, assignment) {
+    var assignment = new assignments(req.body);
+    assignment.normalized = assignment.name.toLowerCase();
+    assignments.create(assignment, function (err, assignment) {
         if (err) return next(err);
         res.redirect('/');
     })
