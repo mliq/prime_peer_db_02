@@ -1,82 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Assignments</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" />
-    <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
-    <script src="/javascripts/script.js" type="text/javascript"></script>
-</head>
-<body>
-<a class="skip-main" href="#main">Skip to main content</a>
-<header>
-    <nav>
-        <ul>
-            <li class="active">
-                <a href="/">Home</a>
-            </li>
-            <li>
-                <a href="/create">Create</a>
-            </li>
-        </ul>
-    </nav>
-    <h1>Assignments</h1>
-</header>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>Assignments</title>
+        <link rel="stylesheet" href="/stylesheets/style.css"/>
+        <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+        <script src="/javascripts/script.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <a class="skip-main" href="#main">Skip to main content</a>
+        <header>
+            <nav>
+                <ul>
+                    <li class="active">
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/create">Create</a>
+                    </li>
+                </ul>
+            </nav>
+            <h1>Assignments</h1>
+        </header>
 
 
-<main id="main">
-    <h1>List of assignments</h1>
+        <main id="main">
+            <h1>List of assignments</h1>
 
-    <p>Click "Delete" to remove an entry. Click "Edit" to change it's properties. To add a new entry, click "Create" in the navigation.</p>
+            <p>Click "Delete" to remove an entry. Click "Edit" to change it's properties. To add a new entry, click
+                "Create" in the navigation.</p>
 
-    <input class="search" type="text">
-    <button class="btn btn-primary submit">Filter</button>
-    <br>
-    <button class="btn btn-primary sortAsc">Sort Ascending</button>
-    <button class="btn btn-primary sortDesc">Sort Descending</button>
+            <input class="search" type="text">
+            <button class="btn btn-primary submit">Filter</button>
+            <br>
+            <button class="btn btn-primary sortAsc">Sort Ascending</button>
+            <button class="btn btn-primary sortDesc">Sort Descending</button>
+            <br>
+            <input name="start_date" id="start_date" type="date" required="required">
+            <input name="end_date" id="end_date" type="date" required="required">
 
-    <div class="row">
-    <div class="col js-assignments"></div>
-    <div class="col editPanel js-editPanel hidden">
-        <div class="row">
-            <div class="col col-1of2">
-                <label for="name">Name:</label>
+            <div class="row">
+                <div class="col js-assignments"></div>
+                <div class="col editPanel js-editPanel hidden">
+                    <div class="row">
+                        <div class="col col-1of2">
+                            <label for="name">Name:</label>
+                        </div>
+                        <div class="col">
+                            <input name="name" id="name" type="text" required="required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-1of2">
+                            <label for="score">score:</label>
+                        </div>
+                        <div class="col">
+                            <input name="score" id="score" type="number" required="required" step="any">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-1of2">
+                            <label for="date_completed">Date Completed:</label>
+                        </div>
+                        <div class="col">
+                            <input name="date_completed" id="date_completed" type="date" required="required">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col col-1of2">
+                            &nbsp;
+                        </div>
+                        <div class="col">
+                            <input type="submit" value="Submit" id="submit">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col">
-                <input name="name" id="name" type="text" required="required">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-1of2">
-                <label for="score">score:</label>
-            </div>
-            <div class="col">
-                <input name="score" id="score" type="number" required="required" step="any">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-1of2">
-                <label for="date_completed">Date Completed:</label>
-            </div>
-            <div class="col">
-                <input name="date_completed" id="date_completed" type="date" required="required">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col col-1of2">
-                &nbsp;
-            </div>
-            <div class="col">
-                <input type="submit" value="Submit" id="submit">
-            </div>
-        </div>
-    </div>
-</div>
-</main>
+        </main>
 
-<footer>
-    Copyright © 2015
-</footer>
+        <footer>
+            Copyright © 2015
+        </footer>
 
-</body>
+    </body>
 </html>

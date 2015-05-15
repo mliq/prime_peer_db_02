@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var assignments = require('../models/assignment');
+var moment = require('moment');
 var name = "";
 
 /* GET /assignments listing. */
@@ -28,13 +29,23 @@ router.get('/sort', function (req, res, next) {
         name = req.query.name;
     }
 
-    assignments.find({name: new RegExp(name, 'i')}, null,
+    var today = moment().startOf('day'); // midnight today.
+    var tomorrow = moment(today).add(1, 'days'); // good.
+    var yesterday = moment(today).subtract(1, 'days');
+
+    assignments.find({
+            name: new RegExp(name, 'i'),
+            date_completed: {
+                $gte: yesterday,
+                $lte: tomorrow
+            }
+        }, null,
         {
             sort: {
                 normalized: req.query.direction
             }
-        }
-        , function (err, data) {
+
+        }, function (err, data) {
 
             if (err) {
                 console.log(err);
