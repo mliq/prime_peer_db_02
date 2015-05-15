@@ -2,7 +2,14 @@ var express = require('express');
 var router = express.Router();
 var assignments = require('../models/assignment');
 var moment = require('moment');
-var name = "";
+var name;
+var startDate;
+var endDate;
+
+//    moment().year(1000);
+//var endDate = moment().year(2016);
+//console.log(moment().year(1));
+//console.log(moment().year(1000));
 
 /* GET /assignments listing. */
 router.get('/', function (req, res, next) {
@@ -25,19 +32,31 @@ router.post('/', function (req, res, next) {
 /* GET /assignments/id */
 router.get('/sort', function (req, res, next) {
 
-    if (req.query.name != undefined) {
-        name = req.query.name;
-    }
+    //if (req.query.name != undefined) {
+    //    name = req.query.name;
+    //}
+    //
+    console.log(req.query);
 
-    var today = moment().startOf('day'); // midnight today.
-    var tomorrow = moment(today).add(1, 'days'); // good.
-    var yesterday = moment(today).subtract(1, 'days');
+    //if (req.query.startDate != '' || req.query.startDate != undefined) {
+    //    startDate = req.query.startDate;
+    //}
+    //
+    //if (req.query.endDate != '' || req.query.endDate != undefined) {
+    //    endDate = req.query.endDate;
+    //}
+
+    //console.log('name:' + name + "| dates:" + startDate + " " + endDate + "direction: "+ direction);
+
+    startDate = req.query.startDate;
+    endDate = req.query.endDate;
+    name = req.query.name;
 
     assignments.find({
             name: new RegExp(name, 'i'),
             date_completed: {
-                $gte: yesterday,
-                $lte: tomorrow
+                $gte: startDate,
+                $lte: endDate
             }
         }, null,
         {

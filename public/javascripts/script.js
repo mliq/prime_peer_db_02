@@ -11,8 +11,11 @@ var $dateEditor;
 var $editPanel;
 var $editorSubmit;
 var direction = 1;
+var startDate = "0001-01-01";
+var endDate = "9999-12-31";
+var name = "";
 
-$(document).ready(function(){
+$(document).ready(function () {
     $container = $('.js-assignments');
     $editPanel = $('.js-editPanel');
     $nameEditor = $('#name');
@@ -24,95 +27,96 @@ $(document).ready(function(){
     assignClicks();
 });
 
-function deleteData(id){
+function deleteData(id) {
     $.ajax({
         url: '/assignments/' + id,
         data: {},
         method: 'delete',
         dataType: 'json',
-        success: function(data, textStatus, jqXHR){
+        success: function (data, textStatus, jqXHR) {
             //hide and remove
-            $('#' + id).slideUp(function() {
+            $('#' + id).slideUp(function () {
                 $(this).remove();
             });
         },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus,errorThrown);
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         },
-        complete: function(jqXHR, textStatus){
+        complete: function (jqXHR, textStatus) {
             console.log("deleteData() Ajax Get Complete:", textStatus);
         }
     });
 }
 
-function updateData(data){
+function updateData(data) {
     $.ajax({
         url: '/assignments/' + data.id,
         data: data,
         method: 'put',
         dataType: 'json',
-        success: function(data, textStatus, jqXHR){
+        success: function (data, textStatus, jqXHR) {
             // clear form
             clearEditor();
             // get new data and update
             getDataSort(direction);
         },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus,errorThrown);
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         },
-        complete: function(jqXHR, textStatus){
+        complete: function (jqXHR, textStatus) {
             console.log("updateData() Ajax Get Complete:", textStatus);
         }
     });
 }
 
-function getDataSort(direction, input){
+function getDataSort(direction) {
+
     $.ajax({
         url: '/assignments/sort',
-        data: {direction: direction, name: input},
+        data: {direction: direction, name: name, startDate: startDate, endDate: endDate},
         method: 'get',
         dataType: 'json',
-        success: function(data, textStatus, jqXHR){
+        success: function (data, textStatus, jqXHR) {
             clearData();
             processData(data);
         },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus,errorThrown);
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
         },
-        complete: function(jqXHR, textStatus){
+        complete: function (jqXHR, textStatus) {
             console.log("getData() Ajax Get Complete:", textStatus);
         }
     });
 }
 
-function clearData(){
+function clearData() {
     $container.empty();
 }
 
-function processData(assignments){
+function processData(assignments) {
 
-    for(var i = 0; i< assignments.length; i++){
+    for (var i = 0; i < assignments.length; i++) {
         var assignment = assignments[i];
 
         var id = assignment._id;
         var name = assignment.name || '';
 
-        var year = assignment.date_completed.substring(0,4);
-        var monthIndex = assignment.date_completed.substring(5,7);
-        var day = assignment.date_completed.substring(8,10);
+        var year = assignment.date_completed.substring(0, 4);
+        var monthIndex = assignment.date_completed.substring(5, 7);
+        var day = assignment.date_completed.substring(8, 10);
 
-        var month = monthNames[parseInt(monthIndex) -1];
+        var month = monthNames[parseInt(monthIndex) - 1];
 
         var score = assignment.score || 0;
 
         // needs to stay in format yyyy-MM-dd for date pickers
-        var datePicker = assignment.date_completed.substring(0,10);
+        var datePicker = assignment.date_completed.substring(0, 10);
 
         buildAndAppendData(id, name, score, datePicker, day, month, year);
     }
 }
 
-function buildAndAppendData(id, name, score, datePicker, day, month, year){
+function buildAndAppendData(id, name, score, datePicker, day, month, year) {
     var section = $('<section/>')
         .attr('id', id)
         .attr('data-name', name)
@@ -135,7 +139,7 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
 
 
     var liDate = $('<li/>')
-        .text('Date Completed: '+ month + ' ' + day + ', ' + year)
+        .text('Date Completed: ' + month + ' ' + day + ', ' + year)
         .addClass('js-date')
         .appendTo(ul);
 
@@ -161,26 +165,37 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
     $container.append(section);
 }
 
-function assignClicks(){
+function assignClicks() {
 
-    $('.sortAsc').on('click', function() {
+    $('.sortAsc').on('click', function () {
         getDataSort(1);
     });
 
-    $('.sortDesc').on('click', function() {
+    $('.sortDesc').on('click', function () {
         getDataSort(-1);
     });
 
-    $('.submit').on('click', function() {
-        getDataSort(-1, $('.search').val());
+    $('.submit').on('click', function () {
+        if ($('.search').val() != '') {
+            name = $('.search').val();
+        }
+
+        if ($('#start_date').val() != '') {
+            startDate = $('#start_date').val();
+        }
+        if ($('#end_date').val() != '') {
+            endDate = $('#end_date').val();
+        }
+
+        getDataSort(direction);
     });
 
-        $container.on('click', '.js-delete', function(){
+    $container.on('click', '.js-delete', function () {
         var id = $(this).data('id');
         deleteData(id);
     });
 
-    $container.on('click', '.js-edit', function(){
+    $container.on('click', '.js-edit', function () {
         var id = $(this).data('id');
         var section = $('#' + id);
         var name = section.data('name');
@@ -189,7 +204,7 @@ function assignClicks(){
         showEditor(id, name, score, date);
     });
 
-    $editorSubmit.on('click', function() {
+    $editorSubmit.on('click', function () {
         // build an object and send it using ajax
 
         var data = {
@@ -205,7 +220,7 @@ function assignClicks(){
 
 }
 
-function showEditor(id,name, score, date){
+function showEditor(id, name, score, date) {
     $editorSubmit.attr('data-id', id);
     $nameEditor.val(name);
     $scoreEditor.val(score);
@@ -215,7 +230,7 @@ function showEditor(id,name, score, date){
     $nameEditor.focus();
 }
 
-function clearEditor(){
+function clearEditor() {
     $editorSubmit.attr('data-id', '');
     $nameEditor.val('');
     $scoreEditor.val('');
