@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var assignments = require('../models/assignment');
+var name = "";
 
 /* GET /assignments listing. */
 router.get('/', function (req, res, next) {
@@ -19,16 +20,12 @@ router.post('/', function (req, res, next) {
 });
 
 /* GET /assignments/id */
-router.get('/search/:name', function (req, res, next) {
-    assignments.find({name: new RegExp(req.params.name, 'i')}, function (err, data) {
-        if (err) return next(err);
-        res.json(data);
-    });
-});
-
 router.get('/sort', function (req, res, next) {
-    console.log(req.query);
-    assignments.find({}, null,
+    console.log(req.query.name, req.query.direction);
+    if (req.query.name != undefined) {
+        name = req.query.name;
+    }
+    assignments.find({name: new RegExp(name, 'i')}, null,
         {
             sort: {
                 name: req.query.direction

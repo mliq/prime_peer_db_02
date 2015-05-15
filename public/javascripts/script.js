@@ -10,6 +10,7 @@ var $scoreEditor;
 var $dateEditor;
 var $editPanel;
 var $editorSubmit;
+var direction = 1;
 
 $(document).ready(function(){
     $container = $('.js-assignments');
@@ -84,10 +85,10 @@ function updateData(data){
     });
 }
 
-function getDataSort(direction){
+function getDataSort(direction, input){
     $.ajax({
         url: '/assignments/sort',
-        data: {direction: direction},
+        data: {direction: direction, name: input},
         method: 'get',
         dataType: 'json',
         success: function(data, textStatus, jqXHR){
@@ -178,23 +179,6 @@ function buildAndAppendData(id, name, score, datePicker, day, month, year){
 
     $container.append(section);
 }
-function search(input){
-    $.ajax({
-        url: '/assignments/search/'+input,
-        method: 'get',
-        dataType: 'json',
-        success: function(data, textStatus, jqXHR){
-            clearData();
-            processData(data);
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            console.log(textStatus,errorThrown);
-        },
-        complete: function(jqXHR, textStatus){
-            console.log("getData() Ajax Get Complete:", textStatus);
-        }
-    });
-}
 
 function assignClicks(){
 
@@ -207,7 +191,8 @@ function assignClicks(){
     });
 
     $('.submit').on('click', function() {
-        search($('.search').val());
+        getDataSort(-1, $('.search').val());
+        //search($('.search').val());
     });
 
         $container.on('click', '.js-delete', function(){
